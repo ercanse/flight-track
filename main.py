@@ -1,6 +1,11 @@
 import json
 import urllib2
 
+from math import sin, cos, sqrt, atan2, radians
+
+home_location_latitude = 52.086280
+home_location_longitude = 4.887380
+
 def process():
     print 'Retrieving list of all flights...'
 
@@ -40,10 +45,39 @@ def get_flight_info(flight_reference):
     contents = urllib2.urlopen(request)
     contents = json.load(contents)
 
-    print contents['identification']
-    print contents['status']
-    print contents['aircraft']['model']
+    print 'Callsign: ', contents['identification']['callsign']
+    print 'Status: ', contents['status']['text']
+    print 'Aircraft model: ', contents['aircraft']['model']['text']
+    print 'Airline: ', contents['airline']['name']
+
+    print contents['airport']['origin']['name']
+    if contents['airport']['destination'] is not None:
+        print contents['airport']['destination']['name']
+
+    last_trail = contents['trail'][-1]
+    print last_trail
+
+    getDistanceFromLatLonInKm(last_trail['lat'], last_trail['lng'], home_location_latitude, home_location_longitude)
+
     print '\n'
+
+def getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2):
+    R = 6373.0
+
+    lat1 = radians(lat1)
+    lon1 = radians(lon1)
+    lat2 = radians(lat2)
+    lon2 = radians(lon2)
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+
+    a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+
+    distance = R * c
+
+    print "Distance to home:", distance
 
 if __name__ == '__main__':
     process()
