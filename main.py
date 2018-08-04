@@ -54,7 +54,7 @@ def get_flight_info(flight_reference):
     if contents['airport']['destination'] is not None:
         print contents['airport']['destination']['name']
 
-    last_trail = contents['trail'][-1]
+    last_trail = contents['trail'][0]
     print last_trail
 
     getDistanceFromLatLonInKm(last_trail['lat'], last_trail['lng'], home_location_latitude, home_location_longitude)
