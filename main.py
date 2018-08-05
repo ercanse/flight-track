@@ -10,7 +10,7 @@ request_headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0',
     'Accept': 'application/json, text/javascript, */*; q=0.01',
     'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Encoding': 'None',
     'Accept-Language': 'en-GB,en;q=0.5',
     'Connection': 'keep-alive',
     'DNT': '1',
