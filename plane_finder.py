@@ -77,7 +77,10 @@ def get_flight_info(ads_hex, flight_no):
     contents = json.load(contents)
 
     flight_info = contents['payload']
-    image_src = '' if len(flight_info['photos']) == 0 else flight_info['photos'][0]['fullPath']
+    image_src = ''
+    if 'photos' in flight_info and len(flight_info['photos']) == 0:
+        image_src = flight_info['photos'][0]['fullPath']
+
     return {
         'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
         'altitude': flight_info['dynamic']['selectedAltitude'],
