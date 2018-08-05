@@ -7,9 +7,9 @@ home_location_latitude = 52.086280
 home_location_longitude = 4.887380
 
 request_headers = {
-    'User-Agent': 'Mozilla/5.0',
+    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Referer': 'https://cssspritegenerator.com',
+    'Referer': 'https://www.google.com',
     'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
     'Accept-Encoding': 'none',
     'Accept-Language': 'en-US,en;q=0.8',
