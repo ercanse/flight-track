@@ -58,7 +58,8 @@ def get_flight_info(flight_reference):
 def print_flight_info(flight_info):
     print 'Callsign: ', flight_info['identification']['callsign']
     print 'Status: ', flight_info['status']['text']
-    print 'Aircraft model: ', flight_info['aircraft']['model']['text']
+    if flight_info['aircraft']['model'] is not None:
+        print 'Aircraft model: ', flight_info['aircraft']['model']['text']
     print 'Airline: ', flight_info['airline']['name']
     print '\n'
     if flight_info['airport']['origin'] is not None:
