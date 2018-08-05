@@ -8,12 +8,15 @@ home_location_longitude = 4.887380
 
 request_headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Referer': 'https://www.google.com',
+    'Accept': 'application/json, text/javascript, */*; q=0.01',
     'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-    'Accept-Encoding': 'none',
-    'Accept-Language': 'en-US,en;q=0.8',
-    'Connection': 'keep-alive'
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'en-GB,en;q=0.5',
+    'Connection': 'keep-alive',
+    'DNT': '1',
+    'Host': 'data-live.flightradar24.com',
+    'Origin': 'https://www.flightradar24.com',
+    'Referer': 'https://www.flightradar24.com/DLH1UW/1d64bf47',
 }
 
 
@@ -23,7 +26,6 @@ def process():
     url_string = 'https://data-live.flightradar24.com/zones/fcgi/feed.js?' \
                  'bounds=52.26,51.98,4.37,5.31&faa=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&' \
                  'vehicles=0&estimated=1&maxage=14400&gliders=0&stats=1'
-    request_headers['Referer'] = url_string
 
     request = urllib2.Request(url_string, headers=request_headers)
     contents = dict()
@@ -63,7 +65,6 @@ def get_flight_info(flight_reference):
     print 'Retrieving details for flight with reference ', flight_reference, '\n'
 
     url_string = 'https://data-live.flightradar24.com/clickhandler/?version=1.5&flight=' + flight_reference
-    request_headers['Referer'] = url_string
 
     request = urllib2.Request(url_string, headers=request_headers)
     contents = urllib2.urlopen(request)
