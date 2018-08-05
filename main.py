@@ -26,7 +26,13 @@ def process():
     request_headers['Referer'] = url_string
 
     request = urllib2.Request(url_string, headers=request_headers)
-    contents = urllib2.urlopen(request)
+    contents = dict()
+    try:
+        contents = urllib2.urlopen(request)
+    except urllib2.HTTPError, e:
+        print e.fp.read()
+        exit(1)
+
     contents = json.load(contents)
 
     flight_results = list()
