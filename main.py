@@ -7,12 +7,13 @@ home_location_latitude = 52.086280
 home_location_longitude = 4.887380
 
 request_headers = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Referer': 'https://cssspritegenerator.com',
     'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
     'Accept-Encoding': 'none',
-    "Accept-Language": "en-US,en;q=0.5",
-    "Connection": "keep-alive",
-    "User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7"
+    'Accept-Language': 'en-US,en;q=0.8',
+    'Connection': 'keep-alive'
 }
 
 
