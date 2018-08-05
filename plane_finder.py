@@ -37,6 +37,7 @@ def process():
         exit(1)
 
     contents = json.load(contents)
+    flights = []
 
     for planes_list in contents['planes'].values():
         for ads_hex, flight_info in planes_list.iteritems():
@@ -53,7 +54,17 @@ def process():
                         print 'Altitude: {} feet, heading: {} degrees, speed: {} knots'.format(
                             flight_info[5], flight_info[6], flight_info[7])
 
-                        print get_flight_info(ads_hex, flight_info[2])
+                        # print get_flight_info(ads_hex, flight_info[2])
+
+                        flights.append({
+                            'ads_hex': ads_hex,
+                            'aircraft_model': flight_info[0],
+                            'flight_number': flight_info[2],
+                            'altitude': flight_info[5],
+                            'heading': flight_info[6],
+                            'speed': flight_info[7]
+                        })
+    return flights
 
 
 def get_flight_info(ads_hex, flight_no):
@@ -66,7 +77,14 @@ def get_flight_info(ads_hex, flight_no):
     contents = json.load(contents)
 
     flight_info = contents['payload']
-    return {'aircraft_type': flight_info['aircraftData']['aircraftFullType']}
+    image_src = '' if len(flight_info['photos']) == 0 else flight_info['photos'][0]['fullPath']
+    return {
+        'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
+        'altitude': flight_info['dynamic']['selectedAltitude'],
+        'heading': flight_info['dynamic']['trackAngle'],
+        'speed': flight_info['dynamic']['trueAirSpeed'],
+        'image_src': image_src
+    }
 
 
 def get_distance_between_points(lat1, lon1, lat2, lon2):

@@ -1,0 +1,39 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<section class="content">
+    <header>
+        <h2>Flight info</h2>
+    </header>
+    <div class="flash">
+        <span>Aircraft model: {{ flight.aircraft.model.text }}</span>
+        <br/>
+        <span>Flight status: {{ flight.status.text }}</span>
+
+        <br/>
+        <br/>
+
+        <span>Origin airport: {{ flight.airport.origin.name }}</span>
+        <br/>
+        <span>Destination airport: {{ flight.airport.destination.name }}</span>
+
+        <br/>
+        <br/>
+
+        <span>Speed: {{ flight.position_info.spd }} knots</span>
+        <br/>
+        <span>Altitude: {{ flight.position_info.alt }} feet</span>
+        <br/>
+        <span>Heading: {{ flight.position_info.hd }} degrees</span>
+
+        <br/>
+        <br/>
+
+        <span>Distance to home: {{ flight.distance_to_home }} km</span>
+
+        <br/>
+        <br/>
+
+        <img src="{{ flight.image_src }}"/>
+    </div>
+</section>

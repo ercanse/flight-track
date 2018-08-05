@@ -1,8 +1,0 @@
-URL to get flights within specific region:
-https://data-live.flightradar24.com/zones/fcgi/feed.js?bounds=52.22,52.03,4.59,5.13&faa=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&vehicles=0&estimated=1&maxage=14400&gliders=0&stats=1
-
-URL to get specific info about flight:
-https://data-live.flightradar24.com/clickhandler/?version=1.5&flight=1d628dbb
-
-Matching of flights between responses from both URLs:
-The keys associated with the list objects in the response from the first URL can be passed to the 'flight' parameter of the second URL.

@@ -6,30 +6,16 @@
         <h2>Flight info</h2>
     </header>
     <div class="flash">
-        <span>Aircraft model: {{ flight.aircraft.model.text }}</span>
-        <br/>
-        <span>Flight status: {{ flight.status.text }}</span>
+        <span>Aircraft model: {{ flight.aircraft_type }}</span>
 
         <br/>
         <br/>
 
-        <span>Origin airport: {{ flight.airport.origin.name }}</span>
+        <span>Speed: {{ flight.speed }} knots</span>
         <br/>
-        <span>Destination airport: {{ flight.airport.destination.name }}</span>
-
+        <span>Altitude: {{ flight.altitude }} feet</span>
         <br/>
-        <br/>
-
-        <span>Speed: {{ flight.position_info.spd }} knots</span>
-        <br/>
-        <span>Altitude: {{ flight.position_info.alt }} feet</span>
-        <br/>
-        <span>Heading: {{ flight.position_info.hd }} degrees</span>
-
-        <br/>
-        <br/>
-
-        <span>Distance to home: {{ flight.distance_to_home }} km</span>
+        <span>Heading: {{ flight.heading }} degrees</span>
 
         <br/>
         <br/>
