@@ -26,14 +26,28 @@ def process():
     contents = urllib2.urlopen(request)
     contents = json.load(contents)
 
-    flights = [key for key in contents.iterkeys() if type(contents[key]) == list]
-    num_flights = len(flights)
-    if num_flights == 0:
-        print 'No flights nearby.'
-    else:
-        print 'Found {} flights'.format(num_flights), '\n'
-        for flight in flights:
-            get_flight_info(flight)
+    flight_results = list()
+    for key, value in contents.items():
+        if type(value) == list:
+            flight_result = dict()
+            flight_result['reference'] = key
+            flight_result['heading'] = value[3]
+            flight_result['altitude'] = value[4]
+            flight_result['speed'] = value[5]
+            flight_result['aircraft_model'] = value[8]
+            flight_result['origin'] = value[11]
+            flight_result['destination'] = value[12]
+            flight_results.append(flight_result)
+
+    return flight_results
+
+    # num_flights = len(flights)
+    # if num_flights == 0:
+    #     print 'No flights nearby.'
+    # else:
+    #     print 'Found {} flights'.format(num_flights), '\n'
+    #     for flight in flights:
+    #         get_flight_info(flight)
 
 
 def get_flight_info(flight_reference):
@@ -50,9 +64,16 @@ def get_flight_info(flight_reference):
 
     last_trail = contents['trail'][0]
 
-    get_distance_between_points(last_trail['lat'], last_trail['lng'], home_location_latitude, home_location_longitude)
+    distance_to_home = get_distance_between_points(last_trail['lat'], last_trail['lng'], home_location_latitude,
+                                                   home_location_longitude)
 
     print '\n'
+
+    contents['position_info'] = last_trail
+    contents['distance_to_home'] = distance_to_home
+    contents['image_src'] = contents['aircraft']['images']['thumbnails'][0]['src']
+
+    return contents
 
 
 def print_flight_info(flight_info):
@@ -73,22 +94,23 @@ def print_flight_info(flight_info):
 
 
 def get_distance_between_points(lat1, lon1, lat2, lon2):
-    R = 6373.0
+    earth_radius = 6373.0
 
     lat1 = radians(lat1)
     lon1 = radians(lon1)
     lat2 = radians(lat2)
     lon2 = radians(lon2)
 
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
+    delta_longitude = lon2 - lon1
+    delta_latitude = lat2 - lat1
 
-    a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+    a = sin(delta_latitude / 2) ** 2 + cos(lat1) * cos(lat2) * sin(delta_longitude / 2) ** 2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-    distance = R * c
+    distance = earth_radius * c
 
     print "Distance to home: ", distance
+    return distance
 
 
 if __name__ == '__main__':
