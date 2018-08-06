@@ -49,7 +49,7 @@ def process():
                     except ValueError:
                         continue
 
-                    if 51.2 <= flight_latitude <= 52.8 and 4.2 <= flight_longitude <= 5.3:
+                    if 51 <= flight_latitude <= 53 and 4 <= flight_longitude <= 5.5:
                         distance_to_home = get_distance_between_points(
                             home_location_latitude, home_location_longitude, flight_latitude, flight_longitude)
 
@@ -94,10 +94,23 @@ def get_flight_info(ads_hex, flight_no):
     if 'photos' in flight_info and flight_info['photos'] is not None:
         image_src = flight_info['photos'][0]['fullPath']
 
+    departure_airport_string = ''
+    destination_airport_string = ''
+    if flight_info['flightData']['routing'] is not None:
+        departure_airport_ref = flight_info['flightData']['routing'][0]
+        destination_airport_ref = flight_info['flightData']['routing'][1]
+        departure_airport_city = flight_info['airportDetail'][departure_airport_ref]['airportCity']
+        departure_airport_name = flight_info['airportDetail'][departure_airport_ref]['airportName']
+        destination_airport_city = flight_info['airportDetail'][destination_airport_ref]['airportCity']
+        destination_airport_name = flight_info['airportDetail'][destination_airport_ref]['airportName']
+
+        departure_airport_string = '{} ({})'.format(departure_airport_name, departure_airport_city)
+        destination_airport_string = '{} ({})'.format(destination_airport_name, destination_airport_city)
+
     return {
         'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
-        'departure_airport': flight_info['flightData']['departureApt'],
-        'destination_airport': flight_info['flightData']['arrivalApt'],
+        'departure_airport': departure_airport_string,
+        'destination_airport': destination_airport_string,
         'altitude': flight_info['dynamic']['selectedAltitude'],
         'heading': flight_info['dynamic']['trackAngle'],
         'speed': flight_info['dynamic']['trueAirSpeed'],
