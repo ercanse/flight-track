@@ -6,6 +6,6 @@
         <h2>Nearby flights</h2>
     </header>
     {% for flight in flights %}
-        <div class="flash"><a href="flight/{{ flight.ads_hex }}/{{ flight.flight_number }}">Aircraft of type {{ flight.aircraft_model }} with flight number {{ flight.flight_number }} (hdg: {{ flight.heading }}, alt: {{ flight.altitude }}, spd: {{ flight.speed }})</a></div>
+        <div class="flash"><a href="flight/{{ flight.ads_hex }}/{{ flight.flight_number }}">{{ flight.aircraft_model }} (flight {{ flight.flight_number }}) at {{ flight.distance_to_home }} km from home (hdg: {{ flight.heading }}, alt: {{ flight.altitude }}, spd: {{ flight.speed }})</a></div>
     {% endfor %}
 </section>
