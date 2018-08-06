@@ -54,8 +54,6 @@ def process():
                         print 'Altitude: {} feet, heading: {} degrees, speed: {} knots'.format(
                             flight_info[5], flight_info[6], flight_info[7])
 
-                        # print get_flight_info(ads_hex, flight_info[2])
-
                         flights.append({
                             'ads_hex': ads_hex,
                             'aircraft_model': flight_info[0],
@@ -68,6 +66,34 @@ def process():
 
 
 def get_flight_info(ads_hex, flight_no):
+    flight_info = get_flight_metadata(ads_hex, flight_no)
+    flight_position = get_flight_position(ads_hex, flight_no)
+
+    print flight_info
+    print flight_position
+
+    flight_latitude = float(flight_position[0])
+    flight_longitude = float(flight_position[1])
+    distance_to_home = get_distance_between_points(
+        home_location_latitude, home_location_longitude, flight_latitude, flight_longitude)
+
+    image_src = ''
+    if 'photos' in flight_info and flight_info['photos'] is not None:
+        image_src = flight_info['photos'][0]['fullPath']
+
+    return {
+        'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
+        'departure_airport': flight_info['flightData']['departureApt'],
+        'destination_airport': flight_info['flightData']['arrivalApt'],
+        'altitude': flight_info['dynamic']['selectedAltitude'],
+        'heading': flight_info['dynamic']['trackAngle'],
+        'speed': flight_info['dynamic']['trueAirSpeed'],
+        'distance_to_home': distance_to_home,
+        'image_src': image_src
+    }
+
+
+def get_flight_metadata(ads_hex, flight_no):
     print 'Retrieving details for flight with flight no ', flight_no, '\n'
 
     url_string = flight_metadata_url.format(ads_hex, flight_no)
@@ -76,18 +102,19 @@ def get_flight_info(ads_hex, flight_no):
     contents = urllib2.urlopen(request)
     contents = json.load(contents)
 
-    flight_info = contents['payload']
-    image_src = ''
-    if 'photos' in flight_info and len(flight_info['photos']) == 0:
-        image_src = flight_info['photos'][0]['fullPath']
+    return contents['payload']
 
-    return {
-        'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
-        'altitude': flight_info['dynamic']['selectedAltitude'],
-        'heading': flight_info['dynamic']['trackAngle'],
-        'speed': flight_info['dynamic']['trueAirSpeed'],
-        'image_src': image_src
-    }
+
+def get_flight_position(ads_hex, flight_no):
+    print 'Retrieving details for flight with flight no ', flight_no, '\n'
+
+    url_string = flight_position_url.format(ads_hex, flight_no)
+
+    request = urllib2.Request(url_string, headers=request_headers)
+    contents = urllib2.urlopen(request)
+    contents = json.load(contents)
+
+    return contents['payload'][0]
 
 
 def get_distance_between_points(lat1, lon1, lat2, lon2):
