@@ -1,0 +1,7 @@
+tr:nth-of-type(odd).flight {
+  background-color:#eee;
+}
+
+td.flight {
+  padding: 5px;
+}

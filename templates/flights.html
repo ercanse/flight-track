@@ -5,7 +5,15 @@
     <header>
         <h2>Nearby flights</h2>
     </header>
-    {% for flight in flights %}
-        <div class="flash"><a href="flight/{{ flight.ads_hex }}/{{ flight.flight_number }}">{{ flight.aircraft_model }} (flight {{ flight.flight_number }}) at {{ flight.distance_to_home }} km from home (hdg: {{ flight.heading }}, alt: {{ flight.altitude }}, spd: {{ flight.speed }})</a></div>
-    {% endfor %}
+        <table>
+        {% for flight in flights %}
+        <tr class="flight">
+            <td class="flight">
+                <a href="flight/{{ flight.ads_hex }}/{{ flight.flight_number }}">
+                    {{ flight.aircraft_model }} (flight {{ flight.flight_number }}) at {{ flight.distance_to_home }} km from home (hdg: {{ flight.heading }}, alt: {{ flight.altitude }}, spd: {{ flight.speed }})
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </table>
 </section>
