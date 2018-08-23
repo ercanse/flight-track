@@ -87,6 +87,7 @@ def get_flight_info(ads_hex, flight_no):
 
     flight_latitude = float(flight_position[0])
     flight_longitude = float(flight_position[1])
+    altitude = float(flight_position[2])
     distance_to_home = get_distance_between_points(
         home_location_latitude, home_location_longitude, flight_latitude, flight_longitude)
 
@@ -111,9 +112,9 @@ def get_flight_info(ads_hex, flight_no):
         'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
         'departure_airport': departure_airport_string,
         'destination_airport': destination_airport_string,
-        'altitude': flight_info['dynamic']['selectedAltitude'],
+        'altitude': altitude,
         'heading': flight_info['dynamic']['trackAngle'],
-        'speed': flight_info['dynamic']['trueAirSpeed'],
+        'speed': flight_info['dynamic']['groundSpeed'],
         'distance_to_home': distance_to_home,
         'image_src': image_src
     }
