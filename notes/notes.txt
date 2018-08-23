@@ -22,3 +22,6 @@ https://planefinder.net/api/api.php?r=aircraftMetadata&adshex=42457B&flightno=SD
 
 Flight position
 https://planefinder.net/api/api.php?r=planePositions&adshex=42457B&flightno=SDM6106
+
+Tracking of nearby flights by Siri
+https://www.johnnyjet.com/ask-siri-plane-flying-above-you/
