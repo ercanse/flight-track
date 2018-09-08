@@ -112,6 +112,8 @@ def get_flight_info(ads_hex, flight_no):
         destination_airport_string = '{} ({})'.format(destination_airport_name, destination_airport_city)
 
     return {
+        'ads_hex': ads_hex,
+        'flight_number': flight_no,
         'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
         'departure_airport': departure_airport_string,
         'destination_airport': destination_airport_string,
