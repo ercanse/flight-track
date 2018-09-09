@@ -88,7 +88,7 @@ def get_flight_info(ads_hex, flight_no):
     flight_latitude = float(flight_position[0])
     flight_longitude = float(flight_position[1])
     try:
-        altitude = float(flight_position[2])
+        altitude = int(flight_position[2])
     except TypeError:
         altitude = None
     distance_to_home = get_distance_between_points(
@@ -169,6 +169,7 @@ def get_distance_between_points(lat1, lon1, lat2, lon2):
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
     distance = earth_radius * c
+    distance = "{:.2f}".format(distance)
 
     print "Distance to home: ", distance
     return distance
