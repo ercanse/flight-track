@@ -103,10 +103,15 @@ def get_flight_info(ads_hex, flight_no):
     if flight_info['flightData']['routing'] is not None:
         departure_airport_ref = flight_info['flightData']['routing'][0]
         destination_airport_ref = flight_info['flightData']['routing'][1]
+
         departure_airport_city = flight_info['airportDetail'][departure_airport_ref]['airportCity']
+        departure_airport_city = departure_airport_city.encode('utf-8').strip()
         departure_airport_name = flight_info['airportDetail'][departure_airport_ref]['airportName']
+        departure_airport_name = departure_airport_name.encode('utf-8').strip()
         destination_airport_city = flight_info['airportDetail'][destination_airport_ref]['airportCity']
+        destination_airport_city = destination_airport_city.encode('utf-8').strip()
         destination_airport_name = flight_info['airportDetail'][destination_airport_ref]['airportName']
+        destination_airport_name = destination_airport_name.encode('utf-8').strip()
 
         departure_airport_string = '{} ({})'.format(departure_airport_name, departure_airport_city)
         destination_airport_string = '{} ({})'.format(destination_airport_name, destination_airport_city)
