@@ -67,7 +67,7 @@ def process():
                             'distance_to_home': distance_to_home
                         })
 
-    flights = sorted(flights, key=lambda k: k['distance_to_home'])
+    flights = sorted(flights, key=lambda k: float(k['distance_to_home']))
     return flights
 
 
