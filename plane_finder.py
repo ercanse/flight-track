@@ -50,29 +50,22 @@ def process():
                         continue
 
                     if 51 <= flight_latitude <= 53 and 4 <= flight_longitude <= 5.5:
+                        print ads_hex, flight_info
+                        print 'Altitude: {} feet, heading: {} degrees, speed: {} knots'.format(
+                            flight_info[5], flight_info[6], flight_info[7])
+
                         distance_to_home = get_distance_between_points(
                             home_location_latitude, home_location_longitude, flight_latitude, flight_longitude)
 
-                        try:
-                            latitude = float(flight_info[3])
-                            longitude = float(flight_info[4])
-                        except ValueError:
-                            continue
-
-                        if 51 <= latitude <= 53 and 4 <= longitude <= 5.5:
-                            print ads_hex, flight_info
-                            print 'Altitude: {} feet, heading: {} degrees, speed: {} knots'.format(
-                                flight_info[5], flight_info[6], flight_info[7])
-
-                            flights.append({
-                                'ads_hex': ads_hex,
-                                'aircraft_model': flight_info[0],
-                                'flight_number': flight_info[2],
-                                'altitude': flight_info[5],
-                                'heading': flight_info[6],
-                                'speed': flight_info[7],
-                                'distance_to_home': distance_to_home
-                            })
+                        flights.append({
+                            'ads_hex': ads_hex,
+                            'aircraft_model': flight_info[0],
+                            'flight_number': flight_info[2],
+                            'altitude': flight_info[5],
+                            'heading': flight_info[6],
+                            'speed': flight_info[7],
+                            'distance_to_home': distance_to_home
+                        })
 
     flights = sorted(flights, key=lambda k: k['distance_to_home'])
     return flights
