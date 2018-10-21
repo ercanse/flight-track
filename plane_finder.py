@@ -6,6 +6,8 @@ from math import sin, cos, sqrt, atan2, radians
 
 home_location_latitude = 52.086280
 home_location_longitude = 4.887380
+kmh_per_knot = 1.852
+meters_per_foot = 0.3
 
 all_flights_url = 'https://planefinder.net/endpoints/update.php'
 flight_metadata_url = 'https://planefinder.net/api/api.php?r=aircraftMetadata&adshex={}&flightno={}'
@@ -57,13 +59,16 @@ def process():
                         distance_to_home = get_distance_between_points(
                             home_location_latitude, home_location_longitude, flight_latitude, flight_longitude)
 
+                        altitude = int(flight_info[5]) * meters_per_foot
+                        speed = int(flight_info[7]) * kmh_per_knot
+
                         flights.append({
                             'ads_hex': ads_hex,
                             'aircraft_model': flight_info[0],
                             'flight_number': flight_info[2],
-                            'altitude': flight_info[5],
+                            'altitude': "{:.0f}".format(altitude),
                             'heading': flight_info[6],
-                            'speed': flight_info[7],
+                            'speed': "{:.0f}".format(speed),
                             'distance_to_home': distance_to_home
                         })
 
@@ -80,10 +85,12 @@ def get_flight_info(ads_hex, flight_no):
 
     flight_latitude = float(flight_position[0])
     flight_longitude = float(flight_position[1])
-    try:
-        altitude = int(flight_position[2])
-    except TypeError:
-        altitude = None
+
+    altitude_field = flight_position[2]
+    altitude = int(altitude_field) * meters_per_foot if altitude_field is not None else 0
+    speed_field = flight_info['dynamic']['groundSpeed']
+    speed = int(speed_field) * kmh_per_knot if speed_field is not None else 0
+
     distance_to_home = get_distance_between_points(
         home_location_latitude, home_location_longitude, flight_latitude, flight_longitude)
 
@@ -98,13 +105,13 @@ def get_flight_info(ads_hex, flight_no):
         destination_airport_ref = flight_info['flightData']['routing'][1]
 
         departure_airport_city = flight_info['airportDetail'][departure_airport_ref]['airportCity']
-        departure_airport_city = departure_airport_city.encode('utf-8').strip()
+        departure_airport_city = departure_airport_city.decode('utf-8').strip()
         departure_airport_name = flight_info['airportDetail'][departure_airport_ref]['airportName']
-        departure_airport_name = departure_airport_name.encode('utf-8').strip()
+        departure_airport_name = departure_airport_name.decode('utf-8').strip()
         destination_airport_city = flight_info['airportDetail'][destination_airport_ref]['airportCity']
-        destination_airport_city = destination_airport_city.encode('utf-8').strip()
+        destination_airport_city = destination_airport_city.decode('utf-8').strip()
         destination_airport_name = flight_info['airportDetail'][destination_airport_ref]['airportName']
-        destination_airport_name = destination_airport_name.encode('utf-8').strip()
+        destination_airport_name = destination_airport_name.decode('utf-8').strip()
 
         departure_airport_string = '{} ({})'.format(departure_airport_name, departure_airport_city)
         destination_airport_string = '{} ({})'.format(destination_airport_name, destination_airport_city)
@@ -115,9 +122,9 @@ def get_flight_info(ads_hex, flight_no):
         'aircraft_type': flight_info['aircraftData']['aircraftFullType'],
         'departure_airport': departure_airport_string,
         'destination_airport': destination_airport_string,
-        'altitude': altitude,
+        'altitude': "{:.0f}".format(altitude),
         'heading': flight_info['dynamic']['trackAngle'],
-        'speed': flight_info['dynamic']['groundSpeed'],
+        'speed': "{:.0f}".format(speed),
         'distance_to_home': distance_to_home,
         'image_src': image_src
     }
