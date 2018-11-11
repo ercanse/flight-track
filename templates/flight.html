@@ -1,6 +1,11 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - Flaskr</title>
+<title>Flight {{ flight.flight_number }}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script>
+    setInterval(function() {
+        window.location.reload();
+    }, 5000);
+</script>
 <section class="content">
     <header>
         <h2>Flight info</h2>
@@ -18,9 +23,9 @@
         <br/>
         <br/>
 
-        <span><b>Speed</b>: {{ flight.speed }} knots</span>
+        <span><b>Speed</b>: {{ flight.speed }} km/h</span>
         <br/>
-        <span><b>Altitude</b>: {{ flight.altitude }} feet</span>
+        <span><b>Altitude</b>: {{ flight.altitude }} meters</span>
         <br/>
         <span><b>Heading</b>: {{ flight.heading }} degrees</span>
 

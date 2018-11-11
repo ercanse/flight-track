@@ -20,3 +20,7 @@ def flights():
 def flight(ads_hex, flight_no):
     flight_info = get_flight_info(ads_hex, flight_no)
     return render_template('flight.html', flight=flight_info)
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
