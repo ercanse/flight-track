@@ -58,14 +58,6 @@ def process():
 
     return flight_results
 
-    # num_flights = len(flights)
-    # if num_flights == 0:
-    #     print 'No flights nearby.'
-    # else:
-    #     print 'Found {} flights'.format(num_flights), '\n'
-    #     for flight in flights:
-    #         get_flight_info(flight)
-
 
 def get_flight_info(flight_reference):
     print 'Retrieving details for flight with reference ', flight_reference, '\n'
