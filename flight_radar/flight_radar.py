@@ -81,7 +81,6 @@ def get_flight_info(flight_reference):
 
     contents['position_info'] = last_trail
     contents['distance_to_home'] = distance_to_home
-    contents['image_src'] = contents['aircraft']['images']['thumbnails'][0]['src']
 
     aircraft_model = ''
     origin = ''
@@ -105,8 +104,8 @@ def get_flight_info(flight_reference):
         'altitude': "{:.0f}".format(altitude),
         'heading': heading,
         'speed': "{:.0f}".format(speed),
-        'distance_to_home': distance_to_home
-        # 'image_src': image_src
+        'distance_to_home': distance_to_home,
+        'image_src': contents['aircraft']['images']['thumbnails'][0]['src']
     }
 
 
