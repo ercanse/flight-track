@@ -37,10 +37,12 @@ def process():
 
     contents = json.load(contents)
 
-    flight_results = list()
+    flights = list()
     for key, value in contents.items():
         if type(value) == list:
             print value
+            distance_to_home = get_distance_between_points(value[1], value[2], home_location_latitude,
+                                                           home_location_longitude)
             flight_result = dict()
             flight_result['reference'] = key
             flight_result['heading'] = value[3]
@@ -50,9 +52,11 @@ def process():
             flight_result['origin'] = value[11]
             flight_result['destination'] = value[12]
             flight_result['flight_number'] = value[13]
-            flight_results.append(flight_result)
+            flight_result['distance_to_home'] = distance_to_home
+            flights.append(flight_result)
 
-    return flight_results
+    flights = sorted(flights, key=lambda k: float(k['distance_to_home']))
+    return flights
 
 
 def get_flight_info(flight_reference):
@@ -131,6 +135,7 @@ def get_distance_between_points(lat1, lon1, lat2, lon2):
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
     distance = earth_radius * c
+    distance = "{:.2f}".format(distance)
 
     print "Distance to home: ", distance
     return distance
