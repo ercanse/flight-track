@@ -93,13 +93,18 @@ def get_flight_info(flight_reference):
     if contents['airport']['destination'] is not None:
         destination = contents['airport']['destination']['name']
 
+    last_trail = contents['trail'][0]
+    speed = last_trail['spd']
+    altitude = last_trail['alt']
+    heading = last_trail['hd']
+
     return {
         'aircraft_model': aircraft_model,
         'origin': origin,
         'destination': destination,
-        # 'altitude': "{:.0f}".format(altitude),
-        # 'heading': flight_info['dynamic']['trackAngle'],
-        # 'speed': "{:.0f}".format(speed),
+        'altitude': "{:.0f}".format(altitude),
+        'heading': heading,
+        'speed': "{:.0f}".format(speed),
         'distance_to_home': distance_to_home
         # 'image_src': image_src
     }
