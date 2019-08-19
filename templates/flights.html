@@ -5,20 +5,22 @@
     setInterval(function() {
         window.location.reload();
     }, 5000);
+
 </script>
 <section class="content">
     <header>
         <h2>Nearby flights</h2>
     </header>
-        <table>
+    <table>
         {% for flight in flights %}
         <tr class="flight">
             <td class="flight">
-                <a href="flight/{{ flight.ads_hex }}/{{ flight.flight_number }}">
-                    {{ flight.aircraft_model }} (flight {{ flight.flight_number }}) at {{ flight.distance_to_home }} km (hdg: {{ flight.heading }}, alt: {{ flight.altitude }}, spd: {{ flight.speed }})
+                <a href="flight/{{ flight.reference }}">
+                    {{ flight.aircraft_model }} (flight {{ flight.flight_number }}) at {{ flight.distance_to_home }} km
+                    (hdg: {{ flight.heading }}, alt: {{ flight.altitude }}, spd: {{ flight.speed }})
                 </a>
             </td>
         </tr>
         {% endfor %}
-        </table>
+    </table>
 </section>

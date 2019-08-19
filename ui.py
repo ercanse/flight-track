@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 
-from plane_finder import process, get_flight_info
+# from plane_finder import process, get_flight_info
+from flight_radar.get_from_flight_radar import process, get_flight_info
 
 app = Flask(__name__)
 
@@ -16,9 +17,9 @@ def flights():
     return render_template('flights.html', flights=flights_info)
 
 
-@app.route("/flight/<string:ads_hex>/<string:flight_no>")
-def flight(ads_hex, flight_no):
-    flight_info = get_flight_info(ads_hex, flight_no)
+@app.route("/flight/<string:ads_hex>")
+def flight(ads_hex):
+    flight_info = get_flight_info(ads_hex)
     return render_template('flight.html', flight=flight_info)
 
 

@@ -46,6 +46,7 @@ def process():
     flight_results = list()
     for key, value in contents.items():
         if type(value) == list:
+            print value
             flight_result = dict()
             flight_result['reference'] = key
             flight_result['heading'] = value[3]
@@ -54,17 +55,10 @@ def process():
             flight_result['aircraft_model'] = value[8]
             flight_result['origin'] = value[11]
             flight_result['destination'] = value[12]
+            flight_result['flight_number'] = value[13]
             flight_results.append(flight_result)
 
     return flight_results
-
-    # num_flights = len(flights)
-    # if num_flights == 0:
-    #     print 'No flights nearby.'
-    # else:
-    #     print 'Found {} flights'.format(num_flights), '\n'
-    #     for flight in flights:
-    #         get_flight_info(flight)
 
 
 def get_flight_info(flight_reference):
@@ -89,7 +83,26 @@ def get_flight_info(flight_reference):
     contents['distance_to_home'] = distance_to_home
     contents['image_src'] = contents['aircraft']['images']['thumbnails'][0]['src']
 
-    return contents
+    aircraft_model = ''
+    origin = ''
+    destination = ''
+    if contents['aircraft']['model'] is not None:
+        aircraft_model = contents['aircraft']['model']['text']
+    if contents['airport']['origin'] is not None:
+        origin = contents['airport']['origin']['name']
+    if contents['airport']['destination'] is not None:
+        destination = contents['airport']['destination']['name']
+
+    return {
+        'aircraft_model': aircraft_model,
+        'origin': origin,
+        'destination': destination,
+        # 'altitude': "{:.0f}".format(altitude),
+        # 'heading': flight_info['dynamic']['trackAngle'],
+        # 'speed': "{:.0f}".format(speed),
+        'distance_to_home': distance_to_home
+        # 'image_src': image_src
+    }
 
 
 def print_flight_info(flight_info):
