@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 
-from get_from_flight_radar import process, get_flight_info
+from flight_radar import process, get_flight_info
 
 app = Flask(__name__)
 
