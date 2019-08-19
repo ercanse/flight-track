@@ -27,12 +27,6 @@ def process():
                  'bounds=52.26,51.98,4.37,5.31&faa=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&' \
                  'vehicles=0&estimated=1&maxage=14400&gliders=0&stats=1'
 
-    urllib2.install_opener(
-        urllib2.build_opener(
-            urllib2.ProxyHandler({'http': '127.0.0.1'})
-        )
-    )
-
     request = urllib2.Request(url_string, headers=request_headers)
     contents = dict()
     try:
@@ -73,14 +67,10 @@ def get_flight_info(flight_reference):
     print_flight_info(contents)
 
     last_trail = contents['trail'][0]
-
     distance_to_home = get_distance_between_points(last_trail['lat'], last_trail['lng'], home_location_latitude,
                                                    home_location_longitude)
 
     print '\n'
-
-    contents['position_info'] = last_trail
-    contents['distance_to_home'] = distance_to_home
 
     aircraft_model = ''
     origin = ''
