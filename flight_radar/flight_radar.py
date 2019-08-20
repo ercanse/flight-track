@@ -5,6 +5,8 @@ from math import sin, cos, sqrt, atan2, radians
 
 home_location_latitude = 52.086280
 home_location_longitude = 4.887380
+kmh_per_knot = 1.852
+meters_per_foot = 0.3
 
 request_headers = {
     'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0',
@@ -46,8 +48,8 @@ def process():
             flight_result = dict()
             flight_result['reference'] = key
             flight_result['heading'] = value[3]
-            flight_result['altitude'] = value[4]
-            flight_result['speed'] = value[5]
+            flight_result['altitude'] = "{:.0f}".format(value[4] * meters_per_foot)
+            flight_result['speed'] = "{:.0f}".format(value[5] * kmh_per_knot)
             flight_result['aircraft_model'] = value[8]
             flight_result['origin'] = value[11]
             flight_result['destination'] = value[12]
@@ -95,9 +97,9 @@ def get_flight_info(flight_reference):
         'aircraft_model': aircraft_model,
         'origin': origin,
         'destination': destination,
-        'altitude': "{:.0f}".format(altitude),
+        'altitude': "{:.0f}".format(altitude * meters_per_foot),
         'heading': heading,
-        'speed': "{:.0f}".format(speed),
+        'speed': "{:.0f}".format(speed * kmh_per_knot),
         'distance_to_home': distance_to_home,
         'image_src': contents['aircraft']['images']['thumbnails'][0]['src']
     }
