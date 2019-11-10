@@ -108,7 +108,6 @@ RUN set -ex ;\
 COPY . /app
 WORKDIR /app
 
-#RUN pip install -r requirements.txt
 ENV FLASK_APP=ui.py
 
 # This script installs APK and Pip prerequisites on container start, or ONBUILD. Notes:
@@ -117,5 +116,3 @@ ENV FLASK_APP=ui.py
 #   * Reads the -p flags and /requirements.txt for Pip packages
 #   * Reads the -r flag to specify a different file path for /requirements.txt
 ENTRYPOINT ["/usr/bin/dumb-init", "bash", "/entrypoint.sh", "-r", "/app/requirements.txt", "--", "python", "-m", "flask", "run", "--host=0.0.0.0"]
-
-#CMD ["python", "-m", "flask", "run"]
