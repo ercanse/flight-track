@@ -1,5 +1,7 @@
 FROM alpine:3.8
 
+MAINTAINER Selman Ercan "ercan.s.selman@gmail.com"
+
 # VERSIONS
 ENV ALPINE_VERSION=3.8 \
     PYTHON_VERSION=2.7.16

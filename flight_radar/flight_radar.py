@@ -1,5 +1,5 @@
 import json
-import urllib2
+import urllib.request
 
 from math import sin, cos, sqrt, atan2, radians
 
@@ -23,18 +23,18 @@ request_headers = {
 
 
 def process():
-    print 'Retrieving list of all flights...'
+    print('Retrieving list of all flights...')
 
     url_string = 'https://data-live.flightradar24.com/zones/fcgi/feed.js?' \
                  'bounds=52.26,51.98,4.37,5.31&faa=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&' \
                  'vehicles=0&estimated=1&maxage=14400&gliders=0&stats=1'
 
-    request = urllib2.Request(url_string, headers=request_headers)
+    request = urllib.request.Request(url_string, headers=request_headers)
     contents = dict()
     try:
-        contents = urllib2.urlopen(request)
-    except urllib2.HTTPError, e:
-        print e.fp.read()
+        contents = urllib.request.urlopen(request)
+    except urllib.request.HTTPError as e:
+        print(e.fp.read())
         exit(1)
 
     contents = json.load(contents)
@@ -42,7 +42,7 @@ def process():
     flights = list()
     for key, value in contents.items():
         if type(value) == list:
-            print value
+            print(value)
             distance_to_home = get_distance_between_points(value[1], value[2], home_location_latitude,
                                                            home_location_longitude)
             flight_result = dict()
@@ -62,12 +62,12 @@ def process():
 
 
 def get_flight_info(flight_reference):
-    print 'Retrieving details for flight with reference ', flight_reference, '\n'
+    print('Retrieving details for flight with reference ', flight_reference, '\n')
 
     url_string = 'https://data-live.flightradar24.com/clickhandler/?version=1.5&flight=' + flight_reference
 
-    request = urllib2.Request(url_string, headers=request_headers)
-    contents = urllib2.urlopen(request)
+    request = urllib.request.Request(url_string, headers=request_headers)
+    contents = urllib.request.urlopen(request)
     contents = json.load(contents)
 
     print_flight_info(contents)
@@ -76,7 +76,7 @@ def get_flight_info(flight_reference):
     distance_to_home = get_distance_between_points(last_trail['lat'], last_trail['lng'], home_location_latitude,
                                                    home_location_longitude)
 
-    print '\n'
+    print('\n')
 
     aircraft_model = ''
     origin = ''
@@ -106,20 +106,21 @@ def get_flight_info(flight_reference):
 
 
 def print_flight_info(flight_info):
-    print 'Callsign: ', flight_info['identification']['callsign']
-    print 'Status: ', flight_info['status']['text']
+    print('Callsign: ', flight_info['identification']['callsign'])
+    print('Status: ', flight_info['status']['text'])
     if flight_info['aircraft']['model'] is not None:
-        print 'Aircraft model: ', flight_info['aircraft']['model']['text']
-    print 'Airline: ', flight_info['airline']['name']
-    print '\n'
+        print('Aircraft model: ', flight_info['aircraft']['model']['text'])
+    if 'name' in flight_info['aircraft']:
+        print('Airline: ', flight_info['airline']['name'])
+    print('\n')
     if flight_info['airport']['origin'] is not None:
-        print 'Origin airport: ', flight_info['airport']['origin']['name']
+        print('Origin airport: ', flight_info['airport']['origin']['name'])
     if flight_info['airport']['destination'] is not None:
-        print 'Destination airport: ', flight_info['airport']['destination']['name']
-    print '\n'
+        print('Destination airport: ', flight_info['airport']['destination']['name'])
+    print('\n')
     last_trail = flight_info['trail'][0]
-    print 'Speed: {} knots, altitude: {} feet, heading: {} degrees'.format(last_trail['spd'], last_trail['alt'],
-                                                                           last_trail['hd'])
+    print('Speed: {} knots, altitude: {} feet, heading: {} degrees'.format(last_trail['spd'], last_trail['alt'],
+                                                                           last_trail['hd']))
 
 
 def get_distance_between_points(lat1, lon1, lat2, lon2):
@@ -139,7 +140,7 @@ def get_distance_between_points(lat1, lon1, lat2, lon2):
     distance = earth_radius * c
     distance = "{:.2f}".format(distance)
 
-    print "Distance to home: ", distance
+    print("Distance to home: ", distance)
     return distance
 
 

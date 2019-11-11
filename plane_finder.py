@@ -1,6 +1,6 @@
 import json
 import re
-import urllib2
+import urllib.request
 
 from math import sin, cos, sqrt, atan2, radians
 
@@ -28,14 +28,14 @@ request_headers = {
 
 
 def process():
-    print 'Retrieving list of all flights...'
+    print('Retrieving list of all flights...')
 
-    request = urllib2.Request(all_flights_url, headers=request_headers)
+    request = urllib.request.Request(all_flights_url, headers=request_headers)
     contents = dict()
     try:
-        contents = urllib2.urlopen(request)
-    except urllib2.HTTPError, e:
-        print e.fp.read()
+        contents = urllib.request.urlopen(request)
+    except urllib.request.HTTPError as e:
+        print(e.fp.read())
         exit(1)
 
     contents = json.load(contents)
@@ -52,9 +52,9 @@ def process():
                         continue
 
                     if 51 <= flight_latitude <= 53 and 4 <= flight_longitude <= 5.5:
-                        print ads_hex, flight_info
-                        print 'Altitude: {} feet, heading: {} degrees, speed: {} knots'.format(
-                            flight_info[5], flight_info[6], flight_info[7])
+                        print(ads_hex, flight_info)
+                        print('Altitude: {} feet, heading: {} degrees, speed: {} knots'.format(
+                            flight_info[5], flight_info[6], flight_info[7]))
 
                         distance_to_home = get_distance_between_points(
                             home_location_latitude, home_location_longitude, flight_latitude, flight_longitude)
@@ -72,7 +72,7 @@ def process():
                             'distance_to_home': distance_to_home
                         })
 
-    flights = sorted(flights, key=lambda k: float(k['distance_to_home']))
+                        flights = sorted(flights, key=lambda k: float(k['distance_to_home']))
     return flights
 
 
@@ -80,8 +80,8 @@ def get_flight_info(ads_hex, flight_no):
     flight_info = get_flight_metadata(ads_hex, flight_no)
     flight_position = get_flight_position(ads_hex, flight_no)
 
-    print flight_info
-    print flight_position
+    print(flight_info)
+    print(flight_position)
 
     flight_latitude = float(flight_position[0])
     flight_longitude = float(flight_position[1])
@@ -98,23 +98,21 @@ def get_flight_info(ads_hex, flight_no):
     if 'photos' in flight_info and flight_info['photos'] is not None:
         image_src = flight_info['photos'][0]['fullPath']
 
-    departure_airport_string = ''
-    destination_airport_string = ''
     if flight_info['flightData']['routing'] is not None:
         departure_airport_ref = flight_info['flightData']['routing'][0]
-        destination_airport_ref = flight_info['flightData']['routing'][1]
+    destination_airport_ref = flight_info['flightData']['routing'][1]
 
-        departure_airport_city = flight_info['airportDetail'][departure_airport_ref]['airportCity']
-        departure_airport_city = departure_airport_city.decode('utf-8').strip()
-        departure_airport_name = flight_info['airportDetail'][departure_airport_ref]['airportName']
-        departure_airport_name = departure_airport_name.decode('utf-8').strip()
-        destination_airport_city = flight_info['airportDetail'][destination_airport_ref]['airportCity']
-        destination_airport_city = destination_airport_city.decode('utf-8').strip()
-        destination_airport_name = flight_info['airportDetail'][destination_airport_ref]['airportName']
-        destination_airport_name = destination_airport_name.decode('utf-8').strip()
+    departure_airport_city = flight_info['airportDetail'][departure_airport_ref]['airportCity']
+    departure_airport_city = departure_airport_city.decode('utf-8').strip()
+    departure_airport_name = flight_info['airportDetail'][departure_airport_ref]['airportName']
+    departure_airport_name = departure_airport_name.decode('utf-8').strip()
+    destination_airport_city = flight_info['airportDetail'][destination_airport_ref]['airportCity']
+    destination_airport_city = destination_airport_city.decode('utf-8').strip()
+    destination_airport_name = flight_info['airportDetail'][destination_airport_ref]['airportName']
+    destination_airport_name = destination_airport_name.decode('utf-8').strip()
 
-        departure_airport_string = '{} ({})'.format(departure_airport_name, departure_airport_city)
-        destination_airport_string = '{} ({})'.format(destination_airport_name, destination_airport_city)
+    departure_airport_string = '{} ({})'.format(departure_airport_name, departure_airport_city)
+    destination_airport_string = '{} ({})'.format(destination_airport_name, destination_airport_city)
 
     return {
         'ads_hex': ads_hex,
@@ -131,24 +129,24 @@ def get_flight_info(ads_hex, flight_no):
 
 
 def get_flight_metadata(ads_hex, flight_no):
-    print 'Retrieving details for flight with flight no ', flight_no, '\n'
+    print('Retrieving details for flight with flight no ', flight_no, '\n')
 
     url_string = flight_metadata_url.format(ads_hex, flight_no)
 
-    request = urllib2.Request(url_string, headers=request_headers)
-    contents = urllib2.urlopen(request)
+    request = urllib.request.Request(url_string, headers=request_headers)
+    contents = urllib.request.urlopen(request)
     contents = json.load(contents)
 
     return contents['payload']
 
 
 def get_flight_position(ads_hex, flight_no):
-    print 'Retrieving details for flight with flight no ', flight_no, '\n'
+    print('Retrieving details for flight with flight no ', flight_no, '\n')
 
     url_string = flight_position_url.format(ads_hex, flight_no)
 
-    request = urllib2.Request(url_string, headers=request_headers)
-    contents = urllib2.urlopen(request)
+    request = urllib.request.Request(url_string, headers=request_headers)
+    contents = urllib.request.urlopen(request)
     contents = json.load(contents)
 
     return contents['payload'][0]
@@ -171,7 +169,7 @@ def get_distance_between_points(lat1, lon1, lat2, lon2):
     distance = earth_radius * c
     distance = "{:.2f}".format(distance)
 
-    print "Distance to home: ", distance
+    print("Distance to home: ", distance)
     return distance
 
 
