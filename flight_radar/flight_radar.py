@@ -83,12 +83,15 @@ def get_flight_info(flight_reference):
     aircraft_model = ''
     origin = ''
     destination = ''
+    image_src = ''
     if contents['aircraft']['model'] is not None:
         aircraft_model = contents['aircraft']['model']['text']
     if contents['airport']['origin'] is not None:
         origin = contents['airport']['origin']['name']
     if contents['airport']['destination'] is not None:
         destination = contents['airport']['destination']['name']
+    if contents['aircraft']['images'] is not None:
+        image_src = contents['aircraft']['images']['thumbnails'][0]['src']
 
     last_trail = contents['trail'][0]
     speed = last_trail['spd']
@@ -103,7 +106,7 @@ def get_flight_info(flight_reference):
         'heading': heading,
         'speed': "{:.0f}".format(speed * kmh_per_knot),
         'distance_to_home': distance_to_home,
-        'image_src': contents['aircraft']['images']['thumbnails'][0]['src']
+        'image_src': image_src
     }
 
 
