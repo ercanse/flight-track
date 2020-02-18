@@ -23,7 +23,6 @@ python -m flask run
 
 #### Using a Docker container
 ```
-cd docker
 docker build -t flight-track:1.0.0 .
 docker run -p 5000:5000 flight-track:1.0.0
 ```
