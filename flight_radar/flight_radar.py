@@ -1,10 +1,12 @@
 import json
 import urllib.request
 
+import config as location_config
+
 from math import sin, cos, sqrt, atan2, radians
 
-home_location_latitude = 52.086280
-home_location_longitude = 4.887380
+home_location_latitude = location_config.location['latitude']
+home_location_longitude = location_config.location['longitude']
 kmh_per_knot = 1.852
 meters_per_foot = 0.3
 
