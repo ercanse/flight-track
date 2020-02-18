@@ -8,5 +8,5 @@ Clicking on a flight then redirects to a page with more details about the flight
 To configure the application, create a `config.py` in the project root with the following content, 
 specifying a custom latitude and longitude:
 ```python
-location = {'latitude': 52.086280, 'longitude': 4.887380}
+location = {'latitude': 0.000000, 'longitude': 0.000000}
 ```
