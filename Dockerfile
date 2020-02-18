@@ -4,7 +4,7 @@ MAINTAINER Selman Ercan "ercan.s.selman@gmail.com"
 
 # VERSIONS
 ENV ALPINE_VERSION=3.8 \
-    PYTHON_VERSION=2.7.16
+    PYTHON_VERSION=3.8.1
 
 ENV PYTHON_PATH=/usr/local/bin/ \
     PATH="/usr/local/lib/python$PYTHON_VERSION/bin/:/usr/local/lib/pyenv/versions/$PYTHON_VERSION/bin:${PATH}" \
