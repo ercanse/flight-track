@@ -4,6 +4,7 @@ import urllib.request
 import config as location_config
 
 from math import sin, cos, sqrt, atan2, radians
+from urllib.error import URLError
 
 home_location_latitude = location_config.location['latitude']
 home_location_longitude = location_config.location['longitude']
@@ -35,8 +36,8 @@ def process():
     contents = dict()
     try:
         contents = urllib.request.urlopen(request)
-    except urllib.request.HTTPError as e:
-        print(e.fp.read())
+    except URLError as e:
+        print(e)
         exit(1)
 
     contents = json.load(contents)
@@ -74,9 +75,16 @@ def get_flight_info(flight_reference):
 
     print_flight_info(contents)
 
-    last_trail = contents['trail'][0]
-    distance_to_home = get_distance_between_points(last_trail['lat'], last_trail['lng'], home_location_latitude,
-                                                   home_location_longitude)
+    trail = contents.get('trail', None)
+    distance_to_home = speed = altitude = heading = None
+
+    if trail:
+        last_trail = contents['trail'][0]
+        speed = last_trail['spd']
+        altitude = last_trail['alt']
+        heading = last_trail['hd']
+        distance_to_home = get_distance_between_points(last_trail['lat'], last_trail['lng'], home_location_latitude,
+                                                       home_location_longitude)
 
     print('\n')
 
@@ -92,11 +100,6 @@ def get_flight_info(flight_reference):
         destination = contents['airport']['destination']['name']
     if contents['aircraft']['images'] is not None:
         image_src = contents['aircraft']['images']['thumbnails'][0]['src']
-
-    last_trail = contents['trail'][0]
-    speed = last_trail['spd']
-    altitude = last_trail['alt']
-    heading = last_trail['hd']
 
     return {
         'aircraft_model': aircraft_model,
